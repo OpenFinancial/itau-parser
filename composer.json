@@ -1,0 +1,20 @@
+{
+    "name": "bycosta/itau-parser",
+    "description": "Parse bank statement into classes",
+    "authors": [
+        {
+            "name": "Caio Costa",
+            "email": "github@bycosta.com"
+        },
+        {
+            "name": "Daniel Costa",
+            "email": "danielcosta@gmail.com"
+        },
+        {
+            "name": "Vinicius Gava",
+            "email": "gava.vinicius@gmail.com"
+        }
+    ],
+    "require": {
+    }
+}
