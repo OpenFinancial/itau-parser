@@ -8,8 +8,10 @@ include('../src/ItauParser/Transaction/AbstractTransaction.php');
 include('../src/ItauParser/Transaction/DebitTransaction.php');
 include('../src/ItauParser/Transaction/TransferTransaction.php');
 
-$txt = file_get_contents('data/example.txt');
-
-$parser = new \ItauParser\Parser(new \ItauParser\Processor\TxtProcessor($txt));
+$parser = new \ItauParser\Parser(
+    new \ItauParser\Processor\TxtProcessor(
+        file_get_contents('data/example.txt')
+    )
+);
 
 var_dump($parser->parse());

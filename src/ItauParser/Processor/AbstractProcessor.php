@@ -36,4 +36,14 @@ abstract class AbstractProcessor
      * @return Collection
      */
     abstract public function process();
+
+    /**
+     * @param string $number
+     *
+     * @return float
+     */
+    protected function convertBrazilianNumber($number)
+    {
+        return (float) str_replace(',', '.', str_replace('.', '', $number));
+    }
 }

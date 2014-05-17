@@ -9,6 +9,10 @@ use ItauParser\Transaction\TransferTransaction;
 
 class TxtProcessor extends AbstractProcessor
 {
+    const SEPARATOR_COLUMN = ';';
+    const SEPARATOR_LINE = PHP_EOL;
+    const FORMAT_DATE = 'd/m/Y';
+
     /**
      * @return Collection
      */
@@ -16,15 +20,15 @@ class TxtProcessor extends AbstractProcessor
     {
         $collection = new Collection();
 
-        foreach (explode(PHP_EOL, $this->data) as $line) {
-            list($date, $description, $amount) = explode(';', $line);
+        foreach (explode(self::SEPARATOR_LINE, $this->data) as $line) {
+            list($date, $description, $amount) = explode(self::SEPARATOR_COLUMN, $line);
 
-            $date = \DateTime::createFromFormat('d/m/Y', $date);
+            $date = \DateTime::createFromFormat(self::FORMAT_DATE, $date);
 
             $transaction = $this->getTransactionByDescription($description, $date);
             $transaction->setDate($date);
 
-            $amount = (float) str_replace('.', '', str_replace(',', '.', $amount));
+            $amount = $this->convertBrazilianNumber($amount);
             $transaction->setAmount($amount);
             $transaction->setAmountType(
                 $amount >= 0 ? AbstractTransaction::AMOUNT_TYPE_CREDIT : AbstractTransaction::AMOUNT_TYPE_DEBIT
@@ -46,19 +50,46 @@ class TxtProcessor extends AbstractProcessor
      */
     protected function getTransactionByDescription($description, \DateTime $date)
     {
-        if (substr($description, 0, 3) == 'TBI') {
+        $transferType = TransferTransaction::matchTransferType(substr($description, 0, 3));
+        if (null !== $transferType) {
             $transaction = new TransferTransaction();
-            $transaction->setName('TBI');
-            $transaction->setDescription(substr($description, 16));
-            $transaction->setAccount(substr($description, 4, 12));
+            $transaction->setTransferType($transferType);
+
+            switch ($transferType) {
+                case TransferTransaction::TRANSFER_TYPE_TBI:
+                    $descriptionPart = trim(substr($description, 16));
+
+                    $transaction->setAccountType(
+                        $descriptionPart{0} == '/' ?
+                            TransferTransaction::ACCOUNT_TYPE_SAVING : TransferTransaction::ACCOUNT_TYPE_CHECKING
+                    );
+                    $transaction->setDescription($descriptionPart);
+
+                    list($routingNumber, $accountNumber) = explode('.', substr($description, 4, 12));
+
+                    $transaction->setRoutingNumber($routingNumber);
+                    $transaction->setAccountNumber($accountNumber);
+                    break;
+                case TransferTransaction::TRANSFER_TYPE_DOC:
+                    $transaction->setAccountHolder(trim(substr($description, 12)));
+
+                    list($bankNumber, $routingNumber) = explode('.', substr($description, 4, 8));
+
+                    $transaction->setBankNumber($bankNumber);
+                    $transaction->setRoutingNumber($routingNumber);
+                    break;
+                case TransferTransaction::TRANSFER_TYPE_TED:
+                    // @todo
+                    break;
+            }
 
             return $transaction;
         }
+
         if (substr($description, 0, 5) == 'RSHOP') {
             list($name, $establishment, $dateEffected) = explode('-', $description);
 
             $transaction = new DebitTransaction();
-            $transaction->setName($name);
             $transaction->setDescription($establishment);
             $transaction->setDateEffected(\DateTime::createFromFormat('d/m/Y', trim($dateEffected) . $date->format('/Y')));
 

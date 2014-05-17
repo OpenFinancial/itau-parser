@@ -28,6 +28,14 @@ class DebitTransaction extends AbstractTransaction
     /**
      * @return string
      */
+    public function getName()
+    {
+        return '@TODO';
+    }
+
+    /**
+     * @return string
+     */
     public function getType()
     {
         return 'debit';

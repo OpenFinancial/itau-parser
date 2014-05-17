@@ -20,11 +20,6 @@ abstract class AbstractTransaction
     /**
      * @var string
      */
-    protected $name;
-
-    /**
-     * @var string
-     */
     protected $description;
 
     /**
@@ -102,20 +97,9 @@ abstract class AbstractTransaction
     }
 
     /**
-     * @param string $name
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
-    /**
      * @return string
      */
-    public function getName()
-    {
-        return $this->name;
-    }
+    abstract public function getName();
 
     /**
      * @return string
