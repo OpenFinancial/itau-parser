@@ -20,10 +20,6 @@ class TxtProcessor extends AbstractProcessor
     {
         $collection = new Collection();
 
-        if (empty($this->data)) {
-            return $collection;
-        }
-
         foreach (explode(self::SEPARATOR_LINE, $this->data) as $line) {
             list($date, $description, $amount) = explode(self::SEPARATOR_COLUMN, $line);
 
@@ -56,7 +52,6 @@ class TxtProcessor extends AbstractProcessor
     {
         $transferType = TransferTransaction::matchTransferType(substr($description, 0, 3));
         if (null !== $transferType) {
-            // @todo move this hole if to a factory
             $transaction = new TransferTransaction();
             $transaction->setTransferType($transferType);
 

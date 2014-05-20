@@ -164,7 +164,7 @@ class TransferTransaction extends AbstractTransaction
      *
      * @return string Enum
      */
-    static public function matchTransferType($type)
+    public static function matchTransferType($type)
     {
         switch ($type) {
             case self::TRANSFER_TYPE_TBI:
