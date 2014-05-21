@@ -51,5 +51,17 @@ class TxtProcessorTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($collection, $parser->parse());
     }
+
+    /**
+     * @expectedException Exception
+     */
+    public function testProcessThrowsException()
+    {
+        $data = array(
+            '17/02/2014;TAR 1234.56789-0ASDFGHH ;-100,00',
+        );
+        $parser = new Parser(new TxtProcessor(implode(PHP_EOL, $data)));
+        $parser->parse();
+    }
 }
  
