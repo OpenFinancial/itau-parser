@@ -6,7 +6,8 @@ use ItauParser\Parser;
 use ItauParser\Transaction\Collection;
 use ItauParser\Transaction\DebitTransaction;
 
-class TxtProcessorTest extends \PHPUnit_Framework_TestCase {
+class TxtProcessorTest extends \PHPUnit_Framework_TestCase
+{
     public function testProcess()
     {
         $data = "17/02/2014;RSHOP-ASDQWEA    -15/02 ;-100,00\n17/02/2014;RSHOP-EWQQ DDD   -14/02 ;-50,00";

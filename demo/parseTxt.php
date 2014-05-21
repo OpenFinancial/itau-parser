@@ -1,16 +1,12 @@
 <?php
 
-include('../src/ItauParser/Parser.php');
-include('../src/ItauParser/Processor/AbstractProcessor.php');
-include('../src/ItauParser/Processor/TxtProcessor.php');
-include('../src/ItauParser/Transaction/Collection.php');
-include('../src/ItauParser/Transaction/AbstractTransaction.php');
-include('../src/ItauParser/Transaction/DebitTransaction.php');
-include('../src/ItauParser/Transaction/TransferTransaction.php');
+$path = realpath(__DIR__ . '/../');
+
+require $path . '/vendor/autoload.php';
 
 $parser = new \ItauParser\Parser(
     new \ItauParser\Processor\TxtProcessor(
-        file_get_contents('data/example.txt')
+        file_get_contents($path . '/demo/data/bankline.statement.txt')
     )
 );
 

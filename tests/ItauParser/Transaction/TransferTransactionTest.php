@@ -2,7 +2,8 @@
 
 namespace ItauParser\Transaction;
 
-class TransferTransactionTest extends \PHPUnit_Framework_TestCase {
+class TransferTransactionTest extends \PHPUnit_Framework_TestCase
+{
     public function testAccountHolder()
     {
         $transfer = new TransferTransaction();

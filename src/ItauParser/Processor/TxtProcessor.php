@@ -52,6 +52,7 @@ class TxtProcessor extends AbstractProcessor
     {
         $transferType = TransferTransaction::matchTransferType(substr($description, 0, 3));
         if (null !== $transferType) {
+            // @todo move this hole if to a factory
             $transaction = new TransferTransaction();
             $transaction->setTransferType($transferType);
 
