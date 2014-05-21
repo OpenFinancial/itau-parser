@@ -61,7 +61,7 @@ class TxtProcessor extends AbstractProcessor
 
                     $transaction->setAccountType(
                         $descriptionPart{0} == '/' ?
-                            TransferTransaction::ACCOUNT_TYPE_SAVING : TransferTransaction::ACCOUNT_TYPE_CHECKING
+                        TransferTransaction::ACCOUNT_TYPE_SAVING : TransferTransaction::ACCOUNT_TYPE_CHECKING
                     );
                     $transaction->setDescription($descriptionPart);
 
@@ -91,7 +91,9 @@ class TxtProcessor extends AbstractProcessor
 
             $transaction = new DebitTransaction();
             $transaction->setDescription(trim($establishment));
-            $transaction->setDateEffected(\DateTime::createFromFormat('d/m/Y', trim($dateEffected) . $date->format('/Y')));
+            $transaction->setDateEffected(
+                \DateTime::createFromFormat('d/m/Y', trim($dateEffected) . $date->format('/Y'))
+            );
 
             return $transaction;
         }
