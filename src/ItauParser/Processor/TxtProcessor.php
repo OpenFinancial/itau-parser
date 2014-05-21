@@ -90,7 +90,7 @@ class TxtProcessor extends AbstractProcessor
             list($name, $establishment, $dateEffected) = explode('-', $description);
 
             $transaction = new DebitTransaction();
-            $transaction->setDescription(trim($establishment));
+            $transaction->setDescription($establishment);
             $transaction->setDateEffected(
                 \DateTime::createFromFormat('d/m/Y', trim($dateEffected) . $date->format('/Y'))
             );
