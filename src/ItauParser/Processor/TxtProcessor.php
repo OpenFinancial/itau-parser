@@ -20,10 +20,6 @@ class TxtProcessor extends AbstractProcessor
     {
         $collection = new Collection();
 
-        if (empty($this->data)) {
-            return $collection;
-        }
-
         foreach (explode(self::SEPARATOR_LINE, $this->data) as $line) {
             list($date, $description, $amount) = explode(self::SEPARATOR_COLUMN, $line);
 
@@ -56,7 +52,6 @@ class TxtProcessor extends AbstractProcessor
     {
         $transferType = TransferTransaction::matchTransferType(substr($description, 0, 3));
         if (null !== $transferType) {
-            // @todo move this hole if to a factory
             $transaction = new TransferTransaction();
             $transaction->setTransferType($transferType);
 
@@ -66,7 +61,7 @@ class TxtProcessor extends AbstractProcessor
 
                     $transaction->setAccountType(
                         $descriptionPart{0} == '/' ?
-                            TransferTransaction::ACCOUNT_TYPE_SAVING : TransferTransaction::ACCOUNT_TYPE_CHECKING
+                        TransferTransaction::ACCOUNT_TYPE_SAVING : TransferTransaction::ACCOUNT_TYPE_CHECKING
                     );
                     $transaction->setDescription($descriptionPart);
 
@@ -95,8 +90,10 @@ class TxtProcessor extends AbstractProcessor
             list($name, $establishment, $dateEffected) = explode('-', $description);
 
             $transaction = new DebitTransaction();
-            $transaction->setDescription(trim($establishment));
-            $transaction->setDateEffected(\DateTime::createFromFormat('d/m/Y', trim($dateEffected) . $date->format('/Y')));
+            $transaction->setDescription($establishment);
+            $transaction->setDateEffected(
+                \DateTime::createFromFormat('d/m/Y', trim($dateEffected) . $date->format('/Y'))
+            );
 
             return $transaction;
         }
