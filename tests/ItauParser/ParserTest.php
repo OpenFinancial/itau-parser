@@ -3,7 +3,6 @@
 namespace ItauParser;
 
 use ItauParser\Processor\TxtProcessor;
-use ItauParser\Transaction\Collection;
 
 class ParserTest extends \PHPUnit_Framework_TestCase
 {

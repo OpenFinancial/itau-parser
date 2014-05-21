@@ -20,6 +20,10 @@ class TxtProcessor extends AbstractProcessor
     {
         $collection = new Collection();
 
+        if (empty($this->data)) {
+            return $collection;
+        }
+
         foreach (explode(self::SEPARATOR_LINE, $this->data) as $line) {
             list($date, $description, $amount) = explode(self::SEPARATOR_COLUMN, $line);
 
@@ -90,7 +94,7 @@ class TxtProcessor extends AbstractProcessor
             list($name, $establishment, $dateEffected) = explode('-', $description);
 
             $transaction = new DebitTransaction();
-            $transaction->setDescription($establishment);
+            $transaction->setDescription(trim($establishment));
             $transaction->setDateEffected(
                 \DateTime::createFromFormat('d/m/Y', trim($dateEffected) . $date->format('/Y'))
             );
