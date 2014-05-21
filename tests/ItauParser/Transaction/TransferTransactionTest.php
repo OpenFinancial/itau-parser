@@ -48,9 +48,18 @@ class TransferTransactionTest extends \PHPUnit_Framework_TestCase
 
     public function testMatchTransferTypeDoc()
     {
-        $this->assertEquals(TransferTransaction::TRANSFER_TYPE_DOC, 'DOC');
-        $this->assertEquals(TransferTransaction::TRANSFER_TYPE_TBI, 'TBI');
-        $this->assertEquals(TransferTransaction::TRANSFER_TYPE_TED, 'TED');
+        $this->assertEquals(
+            TransferTransaction::matchTransferType(TransferTransaction::TRANSFER_TYPE_DOC),
+            TransferTransaction::TRANSFER_TYPE_DOC
+        );
+        $this->assertEquals(
+            TransferTransaction::matchTransferType(TransferTransaction::TRANSFER_TYPE_TBI),
+            TransferTransaction::TRANSFER_TYPE_TBI
+        );
+        $this->assertEquals(
+            TransferTransaction::matchTransferType(TransferTransaction::TRANSFER_TYPE_TED),
+            TransferTransaction::TRANSFER_TYPE_TED
+        );
     }
 }
  

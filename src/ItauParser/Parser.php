@@ -27,6 +27,9 @@ class Parser
         $this->processor = $processor;
     }
 
+    /**
+     * @return Transaction\Collection
+     */
     public function parse()
     {
         return $this->processor->process();
