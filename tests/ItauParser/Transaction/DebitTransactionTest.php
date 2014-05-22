@@ -2,7 +2,8 @@
 
 namespace ItauParser\Transaction;
 
-class DebitTransactionTest extends \PHPUnit_Framework_TestCase {
+class DebitTransactionTest extends \PHPUnit_Framework_TestCase
+{
     public function testDateEffected()
     {
         $originalDate = new \DateTime();
@@ -12,6 +13,20 @@ class DebitTransactionTest extends \PHPUnit_Framework_TestCase {
         $debit->setDateEffected($clonedDate);
 
         $this->assertEquals($originalDate->getTimestamp(), $debit->getDateEffected()->getTimestamp());
+    }
+
+    public function testName()
+    {
+        $debit = new DebitTransaction();
+
+        $this->assertEquals($debit->getName(), '@TODO');
+    }
+
+    public function testType()
+    {
+        $debit = new DebitTransaction();
+
+        $this->assertEquals($debit->getType(), 'debit');
     }
 }
  

@@ -1,0 +1,43 @@
+A 	Agendamento
+ADIC 	Adicional
+ADIANT. DEPOSITANTE 	Adiantamento à depositante
+AG 	Agência
+AUT,AUTOM 	Automática (o)
+BAS 	Básica
+BKF 	Bankfone
+BKL,BKI 	Bankline
+C 	Crédito a compensar
+C/C 	Conta-corrente
+CCF 	Cadastro de cheque sem fundo
+CEI 	Caixa Eletrônico Itaú
+CH,CHQ 	Cheque
+CONTRB 	Contribuição
+CXE 	Caixas Eletrônicos
+D 	Débito a compensar
+DA 	Débito Automático
+DEP 	Depósito
+DEV 	Devolvido ou Devolução ou Devedor
+DOC 	Documento de Crédito
+EXTR,EXT 	Extrato
+G 	Aplicação programada
+INT,INTERNET,30H INT 	Transação realizada pela Internet
+INT TRANSF 	Transferência efetuada/recebida via Internet
+IOF 	Imposto sobre Operações Financeiras
+MENS 	Mensalidade
+P 	Poupança Automática
+PAGTO,PGTO,PAG,PG 	Pagamento
+POUP 	Poupança
+REFIN 	Refinanciamento
+REMUNER 	Remuneração
+RSHOP 	Rede Shop
+SDO,SD 	Saldo
+SAQ,SQ 	Saque
+SISDEB 	Sistema de débito automático
+SISPAG 	Sistema de Pagamento
+TAR 	Tarifa
+TBI 	Transferência efetuada,recebida via bankline
+TED 	Transferência eletrônica disponível
+TEL TRANSF 	Transferência efetuada/recebida via Telefone
+TEL,TELEFONE,30H TEL 	Transação realizada pelo Telefone
+TIT 	Título
+TRANSF,TEF,TEC,TRF,TRANS	Transferência

@@ -61,5 +61,20 @@ class TransferTransactionTest extends \PHPUnit_Framework_TestCase
             TransferTransaction::TRANSFER_TYPE_TED
         );
     }
+
+    public function testName()
+    {
+        $transfer = new TransferTransaction();
+        $transfer->setTransferType(TransferTransaction::TRANSFER_TYPE_TBI);
+
+        $this->assertEquals($transfer->getName(), 'Transfer (' . $transfer->getTransferType() . ')');
+    }
+
+    public function testType()
+    {
+        $transfer = new TransferTransaction();
+
+        $this->assertEquals($transfer->getType(), 'transfer');
+    }
 }
  

@@ -6,16 +6,23 @@ abstract class AbstractTransaction
 {
     const AMOUNT_TYPE_DEBIT = 'debit';
     const AMOUNT_TYPE_CREDIT = 'credit';
+    const CHANNEL_AGENCY = 'agency';
+    const CHANNEL_ATM = 'atm';
+    const CHANNEL_INTERNET = 'INT';
+    const CHANNEL_PHONE = 'phone';
+    const CHANNEL_SHOP = 'shop';
+    const CHANNEL_UNKNOWN = 'unknown';
+
+
+    /**
+     * @var string Enum
+     */
+    protected $channel;
 
     /**
      * @var \DateTime
      */
     protected $date;
-
-    /**
-     * @var string Enum
-     */
-    protected $type;
 
     /**
      * @var string
@@ -62,6 +69,22 @@ abstract class AbstractTransaction
     public function getAmountType()
     {
         return $this->amountType;
+    }
+
+    /**
+     * @param string $channel
+     */
+    public function setChannel($channel)
+    {
+        $this->channel = $channel;
+    }
+
+    /**
+     * @return string
+     */
+    public function getChannel()
+    {
+        return $this->channel;
     }
 
     /**

@@ -28,8 +28,15 @@ class TxtProcessor extends AbstractProcessor
             list($date, $description, $amount) = explode(self::SEPARATOR_COLUMN, $line);
 
             $date = \DateTime::createFromFormat(self::FORMAT_DATE, $date);
+            $channel = AbstractTransaction::CHANNEL_UNKNOWN;
+
+            if (substr($description, 0, 3) == AbstractTransaction::CHANNEL_INTERNET) {
+                $description = substr($description, 4);
+                $channel = AbstractTransaction::CHANNEL_INTERNET;
+            }
 
             $transaction = $this->getTransactionByDescription($description, $date);
+            $transaction->setChannel($channel);
             $transaction->setDate($date);
 
             $amount = $this->convertBrazilianNumber($amount);
@@ -55,7 +62,7 @@ class TxtProcessor extends AbstractProcessor
     protected function getTransactionByDescription($description, \DateTime $date)
     {
         $transferType = TransferTransaction::matchTransferType(substr($description, 0, 3));
-        if (null !== $transferType) {
+        if ($transferType !== TransferTransaction::TRANSFER_TYPE_UNKNOWN) {
             $transaction = new TransferTransaction();
             $transaction->setTransferType($transferType);
 
@@ -63,11 +70,13 @@ class TxtProcessor extends AbstractProcessor
                 case TransferTransaction::TRANSFER_TYPE_TBI:
                     $descriptionPart = trim(substr($description, 16));
 
-                    $transaction->setAccountType(
-                        $descriptionPart{0} == '/' ?
-                        TransferTransaction::ACCOUNT_TYPE_SAVING : TransferTransaction::ACCOUNT_TYPE_CHECKING
-                    );
-                    $transaction->setDescription($descriptionPart);
+                    if ($descriptionPart{0} == '/') {
+                        $transaction->setAccountType(TransferTransaction::ACCOUNT_TYPE_SAVING);
+                        $transaction->setDescription(substr($descriptionPart, 4));
+                    } else {
+                        $transaction->setAccountType(TransferTransaction::ACCOUNT_TYPE_CHECKING);
+                        $transaction->setDescription($descriptionPart);
+                    }
 
                     list($routingNumber, $accountNumber) = explode('.', substr($description, 4, 12));
 
@@ -83,7 +92,19 @@ class TxtProcessor extends AbstractProcessor
                     $transaction->setRoutingNumber($routingNumber);
                     break;
                 case TransferTransaction::TRANSFER_TYPE_TED:
-                    // @todo
+                    if (strlen($description) < 24) {
+                        $transaction->setDescription(trim(substr($description, 12)));
+                    } else {
+                        $transaction->setAccountHolder(trim(substr($description, 12)));
+                    }
+
+                    $fields = explode('.', substr($description, 4, 8));
+
+                    if (count($fields) > 1) {
+                        $transaction->setBankNumber($fields[0]);
+                        $transaction->setRoutingNumber($fields[1]);
+                    }
+
                     break;
             }
 
@@ -91,7 +112,7 @@ class TxtProcessor extends AbstractProcessor
         }
 
         if (substr($description, 0, 5) == 'RSHOP') {
-            list($name, $establishment, $dateEffected) = explode('-', $description);
+            list(, $establishment, $dateEffected) = explode('-', $description);
 
             $transaction = new DebitTransaction();
             $transaction->setDescription(trim($establishment));
@@ -102,6 +123,6 @@ class TxtProcessor extends AbstractProcessor
             return $transaction;
         }
 
-        throw new \Exception('Unable to identify transaction type');
+        throw new \Exception('Unable to identify transaction type, description: ' . $description);
     }
 }

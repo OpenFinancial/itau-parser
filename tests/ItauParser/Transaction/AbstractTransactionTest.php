@@ -43,18 +43,11 @@ class AbstractTransactionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($transfer->getDescription(), 'ASDFGHH ');
     }
 
-    public function testName()
+    public function testChannel()
     {
         $transfer = new TransferTransaction();
-        $transfer->setTransferType(TransferTransaction::TRANSFER_TYPE_TBI);
+        $transfer->setChannel(TransferTransaction::CHANNEL_INTERNET);
 
-        $this->assertEquals($transfer->getName(), 'Transfer (' . $transfer->getTransferType() . ')');
-    }
-
-    public function testType()
-    {
-        $transfer = new TransferTransaction();
-
-        $this->assertEquals($transfer->getType(), 'transfer');
+        $this->assertEquals($transfer->getChannel(), TransferTransaction::CHANNEL_INTERNET);
     }
 }

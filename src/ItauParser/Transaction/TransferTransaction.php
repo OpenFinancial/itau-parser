@@ -4,6 +4,7 @@ namespace ItauParser\Transaction;
 
 class TransferTransaction extends AbstractTransaction
 {
+    const TRANSFER_TYPE_UNKNOWN = 'unknown';
     const TRANSFER_TYPE_TBI = 'TBI';
     const TRANSFER_TYPE_DOC = 'DOC';
     const TRANSFER_TYPE_TED = 'TED';
@@ -177,7 +178,7 @@ class TransferTransaction extends AbstractTransaction
                 return self::TRANSFER_TYPE_TED;
                 break;
             default:
-                return null;
+                return self::TRANSFER_TYPE_UNKNOWN;
         }
     }
 }
